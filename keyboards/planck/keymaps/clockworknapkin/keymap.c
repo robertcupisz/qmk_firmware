@@ -256,6 +256,8 @@ uint16_t muse_counter = 0;
 uint8_t muse_offset = 70;
 uint16_t muse_tempo = 50;
 
+#define MOUSE_SCROLL_MULT 4
+
 void encoder_update(bool clockwise) {
   if (muse_mode) {
     if (IS_LAYER_ON(_RAISE)) {
@@ -274,16 +276,22 @@ void encoder_update(bool clockwise) {
   } else {
     if (clockwise) {
       #ifdef MOUSEKEY_ENABLE
-        register_code(KC_MS_WH_DOWN);
-        unregister_code(KC_MS_WH_DOWN);
+        for (int i = 0; i < MOUSE_SCROLL_MULT; i++)
+        {
+          register_code(KC_MS_WH_DOWN);
+          unregister_code(KC_MS_WH_DOWN);
+        }
       #else
         register_code(KC_PGDN);
         unregister_code(KC_PGDN);
       #endif
     } else {
       #ifdef MOUSEKEY_ENABLE
-        register_code(KC_MS_WH_UP);
-        unregister_code(KC_MS_WH_UP);
+        for (int i = 0; i < MOUSE_SCROLL_MULT; i++)
+        {
+          register_code(KC_MS_WH_UP);
+          unregister_code(KC_MS_WH_UP);
+        }
       #else
         register_code(KC_PGUP);
         unregister_code(KC_PGUP);
